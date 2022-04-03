@@ -1,17 +1,20 @@
 <script>
-  export let guesses = [
-    ["H", "E", "L", "L", "O"],
-    ["H", "E", "", "", ""],
-  ];
+  export let word = 'hello' // correct word
+  export let guesses = [''] // list of guesses
+  export let nGuesses = 6
 </script>
 
 <div class="board">
-  {#each guesses as guess}
+  {#each Array(nGuesses) as _, i}
     <div class="grid-row">
-      {#each guess as char}
-        <div class={char.length ? "tile tile-used" : "tile tile-empty"}>
-          {char}
-        </div>
+      {#each word as c, j}
+        {#if i < guesses.length && j < guesses[i].length}
+          <div class="tile tile-used">
+            {guesses[i][j]}
+          </div>
+        {:else}
+          <div class="tile tile-empty">&nbsp;</div>
+        {/if}
       {/each}
     </div>
   {/each}
@@ -33,6 +36,7 @@
     width: 3rem;
     line-height: 3rem;
     font-size: 2rem;
+    font-weight: bold;
     margin: 2px;
     align-items: center;
     vertical-align: middle;
