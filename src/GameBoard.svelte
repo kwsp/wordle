@@ -1,10 +1,9 @@
 <script>
   import { shakeRowState } from './shake'
 
-  export let word = 'hello' // correct word
+  export let word = '' // target word
   export let guesses = [''] // list of guesses
   export let nTries = 6
-  $: console.log("Word", word)
 
   $: idx = guesses.length - 1
 </script>

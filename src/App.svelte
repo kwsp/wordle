@@ -4,11 +4,13 @@
 
   import { shakeCurrentRow } from './shake'
 
-  let word = 'hello'
+  let word = '' // target word
   let wordlist = []
-  let guesses = ['']
+  let guesses = [''] // list of guesses
 
-  let msg = ''
+  let nTries = 6
+  let gameOver = false
+  let popupMsg = ''
 
   async function getData() {
     const response = await fetch('./wordlist.txt')
@@ -38,23 +40,27 @@
     if (guess.length === word.length) {
       if (guess === word) {
         // success
-        msg = 'Success'
-        guesses[idx+1] = '' // force Svelte to update
+        popupMsg = 'Success'
+        guesses[idx + 1] = '' // force Svelte to update
+        gameOver = true
       } else if (!wordlist.includes(guess)) {
         // guess not in wordlist
-        msg = 'Guess not in the wordlist'
-        console.log(msg)
+        popupMsg = 'Guess not in the wordlist'
+        console.log(popupMsg)
         shakeCurrentRow()
       } else {
         // guess in wordlist but incorrect
-        msg = 'Guess in wordlist but incorrect'
-        console.log(msg)
-        guesses[idx+1] = ''
+        popupMsg = 'Guess in wordlist but incorrect'
+        console.log(popupMsg)
+        guesses[idx + 1] = ''
       }
     } else {
-      msg = 'Not enough letters'
-      console.log(msg)
+      popupMsg = 'Not enough letters'
+      console.log(popupMsg)
       shakeCurrentRow()
+    }
+    if (guesses.length == nTries) {
+      gameOver = true
     }
   }
 
@@ -64,8 +70,11 @@
   }
 
   function handleKeydown(event) {
+    if (gameOver) {
+      return
+    }
+
     let key = event.key
-    /*console.log(key, event)*/
 
     if (isChar(key)) {
       _handleChar(key)
@@ -84,8 +93,8 @@
 </header>
 
 <main>
-  <GameBoard {word} {guesses} nTries={6} />
-  <PopupBox bind:msg />
+  <GameBoard {word} {guesses} {nTries} />
+  <PopupBox bind:msg={popupMsg} />
 </main>
 
 <style>
