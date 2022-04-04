@@ -1,32 +1,22 @@
 <script>
   import Key from './Key.svelte'
 
-  export let word = ''
+  export let charsCorrect = new Set()
+  export let charsContains = new Set()
+
   const keys = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm']
+  keys[1] = ["Spacer", ...keys[1], "Spacer"]
+  keys[2] = ["Enter", ...keys[2], "Delete"]
 </script>
 
 <div class="keyboard">
-  <div class="row">
-    {#each keys[0] as key}
-      <Key {word} {key} on:key />
-    {/each}
-  </div>
-
-  <div class="row">
-    <div class="spacer" />
-    {#each keys[1] as key}
-      <Key {word} {key} on:key />
-    {/each}
-    <div class="spacer" />
-  </div>
-
-  <div class="row">
-    <Key {word} key="Enter" on:key />
-    {#each keys[2] as key}
-      <Key {word} {key} on:key />
-    {/each}
-    <Key {word} key="Delete" on:key />
-  </div>
+  {#each keys as row}
+    <div class="row">
+      {#each row as key}
+        <Key {key} on:key {charsCorrect} {charsContains}/>
+      {/each}
+    </div>
+  {/each}
 </div>
 
 <style>
@@ -47,9 +37,5 @@
     width: 100%;
     margin: 0 auto 8px;
     touch-action: manipulation;
-  }
-
-  .spacer {
-    flex: 0.5;
   }
 </style>

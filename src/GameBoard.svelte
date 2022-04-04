@@ -54,7 +54,10 @@
   .board {
     vertical-align: middle;
     height: 100%;
-    margin: 2rem;
+    margin: auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .grid-row {
@@ -111,6 +114,13 @@
 
     background-color: white;
     color: black;
+  }
+  @media (max-width: 500){
+    .tile {
+      font-size: 1em;
+      line-height: 1em;
+      width: 1em;
+    }
   }
 
   @keyframes flipVertical {

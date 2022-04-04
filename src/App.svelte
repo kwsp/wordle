@@ -11,6 +11,23 @@
   let guesses = [''] // list of guesses
   $: idx = guesses.length - 1
 
+  let charsCorrect = new Set()
+  let charsContains = new Set()
+
+  function updateKeyboard() {
+    charsCorrect = new Set(
+      guesses.flatMap((guess) =>
+        [...guess].filter((char, i) => char === word[i])
+      )
+    )
+    charsContains = new Set(
+      guesses.flatMap((guess) =>
+        [...guess].filter((char) => word.includes(char))
+      )
+    )
+    console.log(charsCorrect, charsContains)
+  }
+
   let nTries = 6
   let gameOver = false
   let popupMsg = ''
@@ -41,6 +58,7 @@
       if (guess === word) {
         // success
         popupMsg = 'Success'
+        updateKeyboard()
         guesses[idx + 1] = '' // force Svelte to update
         gameOver = true
       } else if (!wordlist.includes(guess)) {
@@ -51,6 +69,7 @@
       } else {
         // guess in wordlist but incorrect
         console.log('Guess in wordlist but incorrect')
+        updateKeyboard()
         guesses[idx + 1] = ''
       }
     } else {
@@ -88,22 +107,38 @@
       handleKey(event.detail.key)
     }
   }
-
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 
-<Header />
 
+<PopupBox bind:msg={popupMsg} />
 <main>
-  <GameBoard {word} {guesses} {nTries} />
-  <PopupBox bind:msg={popupMsg} />
-  <Keyboard on:key={handleOnScreenKeyboard} {word}/>
+  <Header />
+  <div id="game">
+    <GameBoard {word} {guesses} {nTries} />
+    <Keyboard on:key={handleOnScreenKeyboard} {charsContains} {charsCorrect} />
+  </div>
 </main>
 
 <style>
   main {
-    max-width: 543px;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction:column;
   }
+
+  #game {
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+    margin: 0 auto;
+    display:flex;
+    flex: 1;
+    flex-direction:column;
+    height: 100%;
+    justify-content: space-evenly;
+  }
+
 </style>
