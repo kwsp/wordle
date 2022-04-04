@@ -1,9 +1,13 @@
 <script>
-  import TileGrid from './TileGrid.svelte'
-
+  import GameBoard from './GameBoard.svelte'
+  
+  import { shakeCurrentRow } from './shake'
+  
   let word = 'hello'
   let guesses = ['']
 
+  $: idx = guesses.length - 1;
+  
   function _handleChar(char) {
     const idx = guesses.length - 1
     if (guesses[idx].length < word.length) {
@@ -17,7 +21,13 @@
   }
 
   function _handleEnter() {
-    console.log("boo")
+    if (guesses[idx].length === word.length) {
+
+    } else {
+      // length doesn't match
+      shakeCurrentRow()
+    }
+    console.log(guesses[idx])
   }
 
   function isChar(s) {
@@ -46,7 +56,7 @@
 </header>
 
 <main>
-  <TileGrid {word} {guesses} nGuesses={6} />
+  <GameBoard {word} {guesses} nTries={6} />
 </main>
 
 <style>
