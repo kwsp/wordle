@@ -98,7 +98,7 @@
 <main>
   <GameBoard {word} {guesses} {nTries} />
   <PopupBox bind:msg={popupMsg} />
-  <Keyboard on:key={handleOnScreenKeyboard} />
+  <Keyboard on:key={handleOnScreenKeyboard} {word}/>
 </main>
 
 <style>
