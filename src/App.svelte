@@ -1,4 +1,5 @@
 <script>
+  import Header from './Header.svelte'
   import GameBoard from './GameBoard.svelte'
   import PopupBox from './PopupBox.svelte'
 
@@ -88,20 +89,9 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<header>
-  <h1>Wordle</h1>
-</header>
+<Header />
 
 <main>
   <GameBoard {word} {guesses} {nTries} />
   <PopupBox bind:msg={popupMsg} />
 </main>
-
-<style>
-  header {
-    display: flex;
-    flex-direction: col;
-    justify-content: center;
-    border: 1px solid black;
-  }
-</style>
