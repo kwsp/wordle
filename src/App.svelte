@@ -2,6 +2,7 @@
   import Header from './Header.svelte'
   import GameBoard from './GameBoard.svelte'
   import PopupBox from './PopupBox.svelte'
+  import Keyboard from './Keyboard.svelte'
 
   import { shakeCurrentRow } from './shake'
 
@@ -66,14 +67,7 @@
     const re = /^[a-z]$/i
     return re.test(s)
   }
-
-  function handleKeydown(event) {
-    if (gameOver) {
-      return
-    }
-
-    let key = event.key
-
+  function handleKey(key) {
     if (isChar(key)) {
       _handleChar(key)
     } else if (key === 'Backspace' || key == 'Delete') {
@@ -82,6 +76,19 @@
       _handleEnter()
     }
   }
+
+  function handleKeydown(event) {
+    if (!gameOver) {
+      handleKey(event.key)
+    }
+  }
+
+  function handleOnScreenKeyboard(event) {
+    if (!gameOver) {
+      handleKey(event.detail.key)
+    }
+  }
+
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -91,4 +98,12 @@
 <main>
   <GameBoard {word} {guesses} {nTries} />
   <PopupBox bind:msg={popupMsg} />
+  <Keyboard on:key={handleOnScreenKeyboard} />
 </main>
+
+<style>
+  main {
+    max-width: 543px;
+    margin: auto;
+  }
+</style>
