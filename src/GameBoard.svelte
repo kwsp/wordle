@@ -1,20 +1,9 @@
 <script>
-  import { scale } from 'svelte/transition'
-
   import { shakeRowState } from './shake'
 
   export let word = '' // target word
   export let guesses = [''] // list of guesses
   export let nTries = 6
-
-  function pop(node, { duration }) {
-    return {
-      duration,
-      css: (t) => {
-        return `transform: scale(${t})`
-      }
-    }
-  }
 
   $: idx = guesses.length - 1
 </script>

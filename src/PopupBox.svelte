@@ -1,22 +1,21 @@
 <script>
-  import { fly } from 'svelte/transition'
+  import { fade } from 'svelte/transition'
   export let msg = ''
 
   let visible = false
   $: {
     if (msg) {
-      visible=true
+      visible = true
       setTimeout(() => {
         visible = false
-      }, 1500);
+        msg = ''
+      }, 1500)
     }
   }
 </script>
 
 {#if visible}
-  <div class="popup-box" transition:fly={{ y: 20, duration: 500 }}>
-    <span>{msg}</span>
-  </div>
+  <div class="popup-box" out:fade={{ duration: 200 }}>{msg}</div>
 {/if}
 
 <style>
@@ -32,12 +31,14 @@
     margin-right: auto;
 
     color: white;
-    background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 1rem;
+    background-color: black;
+    border-radius: 5px;
 
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-weight: 700;
   }
 </style>

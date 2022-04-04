@@ -8,6 +8,7 @@
   let word = '' // target word
   let wordlist = []
   let guesses = [''] // list of guesses
+  $: idx = guesses.length - 1
 
   let nTries = 6
   let gameOver = false
@@ -22,19 +23,16 @@
   getData()
 
   function _handleChar(char) {
-    const idx = guesses.length - 1
     if (guesses[idx].length < word.length) {
       guesses[idx] += char.toLowerCase()
     }
   }
 
   function _handleDelete() {
-    const idx = guesses.length - 1
     guesses[idx] = guesses[idx].slice(0, -1)
   }
 
   function _handleEnter() {
-    const idx = guesses.length - 1
     const guess = guesses[idx]
     console.log('Guess:', guess)
 
@@ -46,13 +44,12 @@
         gameOver = true
       } else if (!wordlist.includes(guess)) {
         // guess not in wordlist
-        popupMsg = 'Guess not in the wordlist'
+        popupMsg = 'Not in word list'
         console.log(popupMsg)
         shakeCurrentRow()
       } else {
         // guess in wordlist but incorrect
-        popupMsg = 'Guess in wordlist but incorrect'
-        console.log(popupMsg)
+        console.log('Guess in wordlist but incorrect')
         guesses[idx + 1] = ''
       }
     } else {
