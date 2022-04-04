@@ -1,5 +1,7 @@
 <header>
-  <h1>Wordle</h1>
+  <a href="https://github.com/kwsp/wordle">
+    <h1>Wordle</h1>
+  </a>
 </header>
 
 <style>
