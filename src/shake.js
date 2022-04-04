@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store'
 
-export let shakeState = writable(false)
+export let shakeRowState = writable(false)
 
 export function shakeCurrentRow() {
-  shakeState.set(true)
-  setTimeout(() => shakeState.set(false), 500)
+  shakeRowState.set(true)
+  setTimeout(() => shakeRowState.set(false), 500)
 }

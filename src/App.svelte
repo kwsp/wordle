@@ -1,33 +1,52 @@
 <script>
   import GameBoard from './GameBoard.svelte'
-  
-  import { shakeCurrentRow } from './shake'
-  
-  let word = 'hello'
-  let guesses = ['']
 
-  $: idx = guesses.length - 1;
-  
+  import { shakeCurrentRow } from './shake'
+
+  let word = 'hello'
+  let wordlist = []
+  let guesses = ['']
+  $: idx = guesses.length - 1
+
+  async function getData() {
+    const response = await fetch('./wordlist.txt')
+    wordlist = (await response.text()).split('\n')
+    word = wordlist[Math.floor(Math.random() * wordlist.length)]
+    console.log('word:', word)
+  }
+  getData()
+
   function _handleChar(char) {
-    const idx = guesses.length - 1
     if (guesses[idx].length < word.length) {
-      guesses[idx] += char
+      guesses[idx] += char.toLowerCase()
     }
   }
 
   function _handleDelete() {
-    const idx = guesses.length - 1
     guesses[idx] = guesses[idx].slice(0, -1)
   }
 
   function _handleEnter() {
-    if (guesses[idx].length === word.length) {
+    const guess = guesses[idx]
+    console.log("Guess:", guess)
 
+    if (guess.length === word.length) {
+      if (guess === word) {
+        // success
+        console.log('Success')
+      } else if (!wordlist.includes(guess)) {
+        // guess not in wordlist
+        console.log('Guess not in the wordlist')
+        shakeCurrentRow()
+      } else {
+        // guess in wordlist but incorrect
+        console.log('Guess in wordlist but incorrect')
+        guesses.push('')
+      }
     } else {
-      // length doesn't match
+      console.log('Not enough letters')
       shakeCurrentRow()
     }
-    console.log(guesses[idx])
   }
 
   function isChar(s) {
@@ -43,7 +62,7 @@
       _handleChar(key)
     } else if (key === 'Backspace' || key == 'Delete') {
       _handleDelete()
-    } else if (key === "Enter") {
+    } else if (key === 'Enter') {
       _handleEnter()
     }
   }

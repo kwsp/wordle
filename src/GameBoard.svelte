@@ -1,5 +1,5 @@
 <script>
-  import { shakeState } from './shake'
+  import { shakeRowState } from './shake'
 
   export let word = 'hello' // correct word
   export let guesses = [''] // list of guesses
@@ -11,7 +11,7 @@
 <div class="board">
   {#each Array(nTries) as _, i}
     <div
-      class="grid-row {idx === i ? 'curr' : ''} {$shakeState ? 'shake' : ''}"
+      class="grid-row {idx === i ? 'curr' : ''} {$shakeRowState ? 'shake' : ''}"
     >
       {#each word as c, j}
         {#if i < guesses.length && j < guesses[i].length}
