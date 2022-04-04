@@ -25,7 +25,6 @@
         [...guess].filter((char) => word.includes(char))
       )
     )
-    console.log(charsCorrect, charsContains)
   }
 
   let nTries = 6

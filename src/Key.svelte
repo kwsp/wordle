@@ -7,7 +7,6 @@
   const dispatch = createEventDispatcher()
 
   function handleClick(_) {
-    console.log(key)
     dispatch('key', { key: key })
   }
 
@@ -66,6 +65,7 @@
     font-size: 12px;
     font-weight: 700;
     border-radius: 4px;
+    user-select: none;
   }
 
   .key[data-key='Enter'],
