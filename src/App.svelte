@@ -1,12 +1,14 @@
 <script>
   import GameBoard from './GameBoard.svelte'
+  import PopupBox from './PopupBox.svelte'
 
   import { shakeCurrentRow } from './shake'
 
   let word = 'hello'
   let wordlist = []
   let guesses = ['']
-  $: idx = guesses.length - 1
+
+  let msg = ''
 
   async function getData() {
     const response = await fetch('./wordlist.txt')
@@ -17,34 +19,41 @@
   getData()
 
   function _handleChar(char) {
+    const idx = guesses.length - 1
     if (guesses[idx].length < word.length) {
       guesses[idx] += char.toLowerCase()
     }
   }
 
   function _handleDelete() {
+    const idx = guesses.length - 1
     guesses[idx] = guesses[idx].slice(0, -1)
   }
 
   function _handleEnter() {
+    const idx = guesses.length - 1
     const guess = guesses[idx]
-    console.log("Guess:", guess)
+    console.log('Guess:', guess)
 
     if (guess.length === word.length) {
       if (guess === word) {
         // success
-        console.log('Success')
+        msg = 'Success'
+        guesses[idx+1] = '' // force Svelte to update
       } else if (!wordlist.includes(guess)) {
         // guess not in wordlist
-        console.log('Guess not in the wordlist')
+        msg = 'Guess not in the wordlist'
+        console.log(msg)
         shakeCurrentRow()
       } else {
         // guess in wordlist but incorrect
-        console.log('Guess in wordlist but incorrect')
-        guesses.push('')
+        msg = 'Guess in wordlist but incorrect'
+        console.log(msg)
+        guesses[idx+1] = ''
       }
     } else {
-      console.log('Not enough letters')
+      msg = 'Not enough letters'
+      console.log(msg)
       shakeCurrentRow()
     }
   }
@@ -76,6 +85,7 @@
 
 <main>
   <GameBoard {word} {guesses} nTries={6} />
+  <PopupBox bind:msg />
 </main>
 
 <style>

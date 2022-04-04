@@ -4,21 +4,39 @@
   export let word = 'hello' // correct word
   export let guesses = [''] // list of guesses
   export let nTries = 6
+  $: console.log("Word", word)
 
   $: idx = guesses.length - 1
 </script>
 
 <div class="board">
-  {#each Array(nTries) as _, i}
-    <div
-      class="grid-row {idx === i ? 'curr' : ''} {$shakeRowState ? 'shake' : ''}"
-    >
+  <!-- Past guesses -->
+  {#each guesses.slice(0, -1) as guess}
+    <div class="grid-row">
       {#each word as c, j}
-        {#if i < guesses.length && j < guesses[i].length}
-          <div class="tile tile-used">{guesses[i][j]}</div>
-        {:else}
-          <div class="tile tile-empty">&nbsp;</div>
-        {/if}
+        <div class="tile tile-filled {c == guess[j] ? 'correct' : word.includes(guess[j]) ? 'contains' : 'wrong'}">
+          {guess[j]}
+        </div>
+      {/each}
+    </div>
+  {/each}
+
+  <!-- Current guesses -->
+  <div class="grid-row curr {$shakeRowState ? 'shake' : ''}">
+    {#each word as _, j}
+      {#if j < guesses[idx].length}
+        <div class="tile filled">{guesses[idx][j]}</div>
+      {:else}
+        <div class="tile empty">&nbsp;</div>
+      {/if}
+    {/each}
+  </div>
+
+  <!-- Empty guesses -->
+  {#each Array(nTries - idx - 1) as _}
+    <div class="grid-row">
+      {#each word as _}
+        <div class="tile empty">&nbsp;</div>
       {/each}
     </div>
   {/each}
@@ -75,11 +93,33 @@
     user-select: none;
   }
 
-  .tile-empty {
+  .tile.empty {
     border: 2px solid grey;
   }
 
-  .tile-used {
+  .tile.filled {
     border: 2px solid black;
+  }
+
+  :root {
+    --green: rgb(93, 159, 94);
+    --grey: rgb(108, 113, 115);
+    --yellow: rgb(195, 170, 86);
+  }
+
+  .tile.correct {
+    color: white;
+    background-color: var(--green);
+    border: 2px solid var(--green);
+  }
+  .tile.contains {
+    color: white;
+    background-color: var(--yellow);
+    border: 2px solid var(--yellow);
+  }
+  .tile.wrong {
+    color: white;
+    background-color: var(--grey);
+    border: 2px solid var(--grey);
   }
 </style>

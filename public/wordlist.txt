@@ -883,7 +883,6 @@ input
 spine
 wines
 herds
-abbot
 burnt
 gauge
 hatch
