@@ -14,11 +14,12 @@
     <div class="grid-row">
       {#each word as c, j}
         <div
-          class="tile tile-filled {c == guess[j]
+          class="tile {c == guess[j]
             ? 'correct'
             : word.includes(guess[j])
             ? 'contains'
             : 'wrong'}"
+          style="animation-delay: {j * 0.2}s;"
         >
           {guess[j]}
         </div>
@@ -29,13 +30,13 @@
   <!-- Current guesses -->
   <div class="grid-row curr {$shakeRowState ? 'shake' : ''}">
     {#each word as _, j}
-      {#if j < guesses[idx].length}
-        <div class="tile filled pop">
+      <div class="tile {j < guesses[idx].length ? 'filled' : 'empty'} ">
+        {#if j < guesses[idx].length}
           {guesses[idx][j]}
-        </div>
-      {:else}
-        <div class="tile empty">&nbsp;</div>
-      {/if}
+        {:else}
+          &nbsp;
+        {/if}
+      </div>
     {/each}
   </div>
 
@@ -92,18 +93,6 @@
     90% {
       transform: scale(102%);
     }
-    20%,
-    80% {
-      transform: scale(104%);
-    }
-    30%,
-    70% {
-      transform: scale(106%);
-    }
-    40%,
-    60% {
-      transform: scale(108%);
-    }
     50% {
       transform: scale(110%);
     }
@@ -115,15 +104,23 @@
     font-size: 2rem;
     font-weight: bold;
     margin: 2px;
-    align-items: center;
-    vertical-align: middle;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     text-transform: uppercase;
     user-select: none;
+
+    background-color: white;
+    color: black;
   }
 
-  .tile.pop {
-    animation: pop 0.1s;
+  @keyframes flipVertical {
+    10%,
+    90% {
+      transform: rotateX(18deg);
+    }
+    50% {
+      transform: rotateX(90deg);
+    }
   }
 
   :root {
@@ -139,20 +136,27 @@
 
   .tile.filled {
     border: 2px solid black;
+    animation: pop 0.1s;
+  }
+
+  .tile.wrong,
+  .tile.correct,
+  .tile.contains {
+    color: white;
+    animation: flipVertical 0.4s;
   }
 
   .tile.correct {
-    color: white;
     background-color: var(--green);
     border: 2px solid var(--green);
   }
+
   .tile.contains {
-    color: white;
     background-color: var(--yellow);
     border: 2px solid var(--yellow);
   }
+
   .tile.wrong {
-    color: white;
     background-color: var(--grey);
     border: 2px solid var(--grey);
   }

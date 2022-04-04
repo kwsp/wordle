@@ -9,7 +9,7 @@
       setTimeout(() => {
         visible = false
         msg = ''
-      }, 1500)
+      }, 1000)
     }
   }
 </script>

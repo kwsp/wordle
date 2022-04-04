@@ -1776,7 +1776,6 @@ decoy
 audit
 girth
 hunts
-novae
 sneak
 ovary
 cadre
@@ -1792,7 +1791,6 @@ brook
 ligne
 troff
 keyed
-murti
 regal
 treed
 muses
@@ -1801,8 +1799,6 @@ usury
 brisk
 kiosk
 token
-prams
-manna
 moose
 crass
 bulky
@@ -1811,7 +1807,6 @@ sloop
 robin
 oaths
 neats
-volva
 query
 pumas
 feces
@@ -1837,9 +1832,6 @@ fowle
 bluff
 chick
 drone
-kitsu
-coryi
-krist
 poked
 lirpa
 pixie
@@ -1855,15 +1847,13 @@ butyl
 rehab
 chops
 sauce
-salvo
+servo
 mixer
 broth
 spire
 poppy
 banjo
 leapt
-khani
-jugal
 dives
 libel
 tonic
