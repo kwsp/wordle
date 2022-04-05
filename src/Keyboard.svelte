@@ -3,6 +3,7 @@
 
   export let charsCorrect = new Set()
   export let charsContains = new Set()
+  export let charsWrong = new Set()
 
   const keys = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm']
   keys[1] = ["Spacer", ...keys[1], "Spacer"]
@@ -13,7 +14,7 @@
   {#each keys as row}
     <div class="row">
       {#each row as key}
-        <Key {key} on:key {charsCorrect} {charsContains}/>
+        <Key {key} on:key {charsCorrect} {charsContains} {charsWrong} />
       {/each}
     </div>
   {/each}

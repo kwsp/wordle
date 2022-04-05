@@ -13,6 +13,7 @@
 
   let charsCorrect = new Set()
   let charsContains = new Set()
+  let charsWrong = new Set()
 
   function updateKeyboard() {
     charsCorrect = new Set(
@@ -23,6 +24,11 @@
     charsContains = new Set(
       guesses.flatMap((guess) =>
         [...guess].filter((char) => word.includes(char))
+      )
+    )
+    charsWrong = new Set(
+      guesses.flatMap((guess) =>
+        [...guess].filter((char) => !word.includes(char))
       )
     )
   }
@@ -110,13 +116,17 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-
 <PopupBox bind:msg={popupMsg} />
 <main>
   <Header />
   <div id="game">
     <GameBoard {word} {guesses} {nTries} />
-    <Keyboard on:key={handleOnScreenKeyboard} {charsContains} {charsCorrect} />
+    <Keyboard
+      on:key={handleOnScreenKeyboard}
+      {charsContains}
+      {charsCorrect}
+      {charsWrong}
+    />
   </div>
 </main>
 
@@ -125,7 +135,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
   }
 
   #game {
@@ -133,11 +143,10 @@
     width: 100%;
     margin: auto;
     margin: 0 auto;
-    display:flex;
+    display: flex;
     flex: 1;
-    flex-direction:column;
+    flex-direction: column;
     height: 100%;
     justify-content: space-evenly;
   }
-
 </style>

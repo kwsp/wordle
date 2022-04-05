@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   export let charsCorrect = new Set()
   export let charsContains = new Set()
+  export let charsWrong = new Set()
   export let key = ''
 
   const dispatch = createEventDispatcher()
@@ -12,6 +13,7 @@
 
   $: correct = charsCorrect.has(key)
   $: contains = charsContains.has(key)
+  $: wrong = charsWrong.has(key)
 </script>
 
 {#if key === 'Spacer'}
@@ -36,7 +38,13 @@
   </button>
 {:else}
   <button
-    class="key {correct ? 'correct' : contains ? 'contains' : ''}"
+    class="key {correct
+      ? 'correct'
+      : contains
+      ? 'contains'
+      : wrong
+      ? 'wrong'
+      : ''}"
     data-key={key}
     on:click={handleClick}
   >
@@ -48,6 +56,7 @@
   :root {
     --green: rgb(93, 159, 94);
     --grey: rgb(108, 113, 115);
+    --dark-grey: rgb(121, 124, 126);
     --yellow: rgb(195, 170, 86);
     --border-grey: rgb(212, 214, 218);
   }
@@ -80,5 +89,9 @@
   .key.contains {
     color: white;
     background-color: var(--yellow);
+  }
+  .key.wrong {
+    color: white;
+    background-color: var(--dark-grey);
   }
 </style>
